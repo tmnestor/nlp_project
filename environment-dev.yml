@@ -1,0 +1,57 @@
+name: nlp_project_dev
+channels:
+  - pytorch        # PyTorch ecosystem packages
+  - conda-forge    # Community-maintained packages with latest versions
+dependencies:
+  # Core Python runtime
+  - python=3.11    # Python interpreter - pinned for reproducibility
+  
+  # Deep Learning Framework (PyTorch ecosystem)
+  - pytorch>=2.4   # Core PyTorch library (>=2.4 required for torch.get_default_device)
+  - torchvision    # Computer vision utilities and pre-trained models
+  
+  # NLP/Transformer Libraries
+  - transformers   # Hugging Face transformers library for pre-trained models
+  - datasets       # Hugging Face datasets library for dataset loading and processing
+  - tokenizers     # Fast tokenizers for text preprocessing
+  
+  # Scientific Computing Stack
+  - numpy<2        # Fundamental package for numerical computing (pinned to 1.x for compatibility)
+  - pandas         # Data manipulation and analysis library
+  - scikit-learn   # Machine learning library for classical ML algorithms
+  
+  # Data Visualization
+  - matplotlib     # Comprehensive plotting library
+  - seaborn        # Statistical data visualization based on matplotlib
+  
+  # Development Environment
+  - jupyter        # Interactive notebook environment for experimentation
+  - ipykernel      # Jupyter kernel for Python
+  
+  # Utilities
+  - tqdm           # Progress bars for loops and long-running operations
+  
+  # Experiment Tracking & Monitoring
+  - wandb          # Weights & Biases for experiment tracking and visualization
+  - tensorboard    # TensorBoard for training visualization and debugging
+  
+  # Testing Framework
+  - pytest         # Testing framework for unit and integration tests
+  - pytest-cov     # Coverage plugin for pytest to measure test coverage
+  
+  # Code Quality & Type Checking
+  - mypy           # Static type checker for Python
+  - ruff           # Fast Python linter and formatter (replaces flake8, isort, etc.)
+  
+  # Documentation
+  - sphinx         # Documentation generator for creating project documentation
+  
+  # Package Management
+  - pip            # Package installer for Python (required for pip dependencies below)
+  
+  # Pip-only Dependencies (not available via conda)
+  - pip:
+    - accelerate   # Hugging Face library for distributed training and mixed precision
+    - evaluate     # Hugging Face library for model evaluation metrics
+    - peft         # Parameter-Efficient Fine-Tuning library for efficient model adaptation
+    - bitsandbytes # 8-bit optimizers and quantization for memory-efficient training

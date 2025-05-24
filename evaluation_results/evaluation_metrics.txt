@@ -1,0 +1,7 @@
+OCCUPATION CLASSIFICATION EVALUATION RESULTS
+================================================================================
+Accuracy: 0.7818
+Number of test samples: 220
+Number of classes: 32
+
+Per-class metrics:
