@@ -6,7 +6,7 @@ from pathlib import Path
 
 # Add src to path for imports
 project_root = Path(__file__).parent.parent
-sys.path.insert(0, str(project_root / "src"))
+sys.path.insert(0, str(project_root / "src"))  # noqa: E402
 
 # Check if environment is properly set up
 try:
@@ -24,7 +24,7 @@ except ImportError as e:
     print(f"\nError: {e}")
     sys.exit(1)
 
-from nlp_project.training.train_occupations import main as train_main
+from nlp_project.training.train_occupations import main as train_main  # noqa: E402
 
 
 def run_training_example():
@@ -32,10 +32,9 @@ def run_training_example():
     print("=" * 60)
     print("OCCUPATIONS CLASSIFIER TRAINING EXAMPLE")
     print("=" * 60)
-    
+
     # Set up arguments for training
-    import argparse
-    
+
     # Create a mock args object with example parameters
     class Args:
         def __init__(self):
@@ -47,38 +46,38 @@ def run_training_example():
             self.epochs = 3
             self.output_dir = "./models/occupations_classifier"
             self.device = "auto"
-    
+
     # Check if data exists
     data_dir = "/Users/tod/data/occupations"
     train_file = os.path.join(data_dir, "train_df.csv")
     val_file = os.path.join(data_dir, "val_df.csv")
-    
+
     if not os.path.exists(train_file):
         print(f"❌ Training data not found at: {train_file}")
         print("Please ensure the occupations dataset is available.")
         return
-    
+
     if not os.path.exists(val_file):
         print(f"❌ Validation data not found at: {val_file}")
         print("Please ensure the occupations dataset is available.")
         return
-    
+
     print(f"✅ Found training data: {train_file}")
     print(f"✅ Found validation data: {val_file}")
-    
+
     print("\nTraining Parameters:")
     print(f"  Data Directory: {data_dir}")
-    print(f"  Model: bert-base-uncased")
-    print(f"  Batch Size: 16")
-    print(f"  Max Length: 128")
-    print(f"  Learning Rate: 2e-5")
-    print(f"  Epochs: 3")
-    print(f"  Output Directory: ./models/occupations_classifier")
-    
+    print("  Model: bert-base-uncased")
+    print("  Batch Size: 16")
+    print("  Max Length: 128")
+    print("  Learning Rate: 2e-5")
+    print("  Epochs: 3")
+    print("  Output Directory: ./models/occupations_classifier")
+
     print("\n" + "=" * 60)
     print("Starting training...")
     print("=" * 60)
-    
+
     # Override sys.argv to simulate command line arguments
     original_argv = sys.argv.copy()
     sys.argv = [
@@ -92,7 +91,7 @@ def run_training_example():
         "--output_dir", "./models/occupations_classifier",
         "--device", "auto"
     ]
-    
+
     try:
         train_main()
         print("\n" + "=" * 60)

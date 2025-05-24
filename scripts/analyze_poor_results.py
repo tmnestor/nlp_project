@@ -2,13 +2,12 @@
 
 import sys
 from pathlib import Path
+
 import pandas as pd
-import numpy as np
-from collections import Counter
 
 # Add src to path for imports
 project_root = Path(__file__).parent.parent
-sys.path.insert(0, str(project_root / "src"))
+sys.path.insert(0, str(project_root / "src"))  # noqa: E402
 
 
 def analyze_class_distribution():
@@ -16,17 +15,17 @@ def analyze_class_distribution():
     print("=" * 80)
     print("CLASS DISTRIBUTION ANALYSIS")
     print("=" * 80)
-    
+
     data_dir = "/Users/tod/data/occupations"
-    
+
     for split in ['train_df', 'val_df', 'test_df']:
         file_path = f"{data_dir}/{split}.csv"
         df = pd.read_csv(file_path)
-        
+
         print(f"\n📊 {split.upper()} SPLIT:")
         print(f"   Total samples: {len(df)}")
         print(f"   Unique classes: {df['label'].nunique()}")
-        
+
         class_counts = df['label'].value_counts().sort_index()
         print(f"   Classes with <5 samples: {(class_counts < 5).sum()}")
         print(f"   Classes with <10 samples: {(class_counts < 10).sum()}")
@@ -40,26 +39,32 @@ def analyze_text_characteristics():
     print("\n" + "=" * 80)
     print("TEXT CHARACTERISTICS ANALYSIS")
     print("=" * 80)
-    
+
     data_dir = "/Users/tod/data/occupations"
     train_df = pd.read_csv(f"{data_dir}/train_df.csv")
-    
+
     # Text length analysis
     text_lengths = train_df['text'].str.len()
     word_counts = train_df['text'].str.split().str.len()
-    
-    print(f"\n📝 TEXT LENGTH STATISTICS:")
-    print(f"   Character length - Min: {text_lengths.min()}, Max: {text_lengths.max()}, Mean: {text_lengths.mean():.1f}")
-    print(f"   Word count - Min: {word_counts.min()}, Max: {word_counts.max()}, Mean: {word_counts.mean():.1f}")
-    
+
+    print("\n📝 TEXT LENGTH STATISTICS:")
+    print(
+        f"   Character length - Min: {text_lengths.min()}, "
+        f"Max: {text_lengths.max()}, Mean: {text_lengths.mean():.1f}"
+    )
+    print(
+        f"   Word count - Min: {word_counts.min()}, "
+        f"Max: {word_counts.max()}, Mean: {word_counts.mean():.1f}"
+    )
+
     # Find examples of very short and very long titles
-    print(f"\n📋 EXAMPLE TEXTS:")
+    print("\n📋 EXAMPLE TEXTS:")
     print("   Shortest titles:")
-    for i, (idx, row) in enumerate(train_df.loc[text_lengths.nsmallest(5).index].iterrows()):
+    for i, (_idx, row) in enumerate(train_df.loc[text_lengths.nsmallest(5).index].iterrows()):
         print(f"     {i+1}. \"{row['text']}\" -> {row['guide']}")
-    
+
     print("   Longest titles:")
-    for i, (idx, row) in enumerate(train_df.loc[text_lengths.nlargest(5).index].iterrows()):
+    for i, (_idx, row) in enumerate(train_df.loc[text_lengths.nlargest(5).index].iterrows()):
         print(f"     {i+1}. \"{row['text']}\" -> {row['guide']}")
 
 
@@ -68,37 +73,37 @@ def analyze_problematic_classes():
     print("\n" + "=" * 80)
     print("PROBLEMATIC CLASSES ANALYSIS")
     print("=" * 80)
-    
+
     data_dir = "/Users/tod/data/occupations"
     train_df = pd.read_csv(f"{data_dir}/train_df.csv")
-    
+
     class_info = []
     for label in sorted(train_df['label'].unique()):
         class_data = train_df[train_df['label'] == label]
         guide_name = class_data['guide'].iloc[0]
         sample_count = len(class_data)
-        
+
         # Get sample texts for this class
         sample_texts = class_data['text'].tolist()[:3]
-        
+
         class_info.append({
             'label': label,
             'guide': guide_name,
             'count': sample_count,
             'sample_texts': sample_texts
         })
-    
+
     # Sort by sample count (ascending)
     class_info.sort(key=lambda x: x['count'])
-    
+
     print("\n🚨 MOST PROBLEMATIC CLASSES (fewest samples):")
     for i, info in enumerate(class_info[:10]):
         print(f"\n   {i+1}. Label {info['label']}: {info['count']} samples")
         print(f"      Guide: {info['guide']}")
         examples = ', '.join(f'"{t}"' for t in info['sample_texts'])
         print(f"      Examples: {examples}")
-    
-    print(f"\n📈 BEST REPRESENTED CLASSES:")
+
+    print("\n📈 BEST REPRESENTED CLASSES:")
     for i, info in enumerate(class_info[-5:]):
         print(f"\n   {i+1}. Label {info['label']}: {info['count']} samples")
         print(f"      Guide: {info['guide']}")
@@ -111,7 +116,7 @@ def suggest_improvements():
     print("\n" + "=" * 80)
     print("IMPROVEMENT RECOMMENDATIONS")
     print("=" * 80)
-    
+
     recommendations = [
         "🎯 CLASS IMBALANCE SOLUTIONS:",
         "   • Use weighted random sampling during training",
@@ -137,7 +142,7 @@ def suggest_improvements():
         "   • Use external occupation data for training",
         "   • Consider semi-supervised learning approaches"
     ]
-    
+
     for rec in recommendations:
         print(rec)
 
@@ -148,7 +153,7 @@ def main():
     analyze_text_characteristics()
     analyze_problematic_classes()
     suggest_improvements()
-    
+
     print("\n" + "=" * 80)
     print("🚀 NEXT STEPS:")
     print("   1. Run the improved training script:")

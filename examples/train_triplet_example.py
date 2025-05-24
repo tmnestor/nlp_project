@@ -6,7 +6,7 @@ from pathlib import Path
 
 # Add src to path for imports
 project_root = Path(__file__).parent.parent
-sys.path.insert(0, str(project_root / "src"))
+sys.path.insert(0, str(project_root / "src"))  # noqa: E402
 
 # Check if environment is properly set up
 try:
@@ -21,7 +21,7 @@ except ImportError as e:
     print(f"\nError: {e}")
     sys.exit(1)
 
-from nlp_project.training.train_triplet_occupations import main as train_main
+from nlp_project.training.train_triplet_occupations import main as train_main  # noqa: E402
 
 
 def run_triplet_training_example():
@@ -29,29 +29,29 @@ def run_triplet_training_example():
     print("=" * 80)
     print("🔺 TRIPLET LOSS OCCUPATIONS CLASSIFIER TRAINING")
     print("=" * 80)
-    
+
     # Check if data exists
     data_dir = "/Users/tod/data/occupations"
     train_file = os.path.join(data_dir, "train_df.csv")
     val_file = os.path.join(data_dir, "val_df.csv")
-    
+
     if not os.path.exists(train_file):
         print(f"❌ Training data not found at: {train_file}")
         return
-    
+
     if not os.path.exists(val_file):
         print(f"❌ Validation data not found at: {val_file}")
         return
-    
+
     print(f"✅ Found training data: {train_file}")
     print(f"✅ Found validation data: {val_file}")
-    
+
     print("\n🔺 TRIPLET LOSS ADVANTAGES:")
     print("  🎯 Learns semantic similarity between occupations")
     print("  📏 Creates better embeddings for similar jobs")
     print("  🔍 Especially effective for few-shot learning")
     print("  💪 Helps with imbalanced classes by learning representations")
-    
+
     print("\n🔧 TRIPLET TRAINING PARAMETERS:")
     print("  🔺 Loss function: Combined Triplet + Classification")
     print("  📊 Triplet margin: 0.5")
@@ -64,18 +64,18 @@ def run_triplet_training_example():
     print("  🎯 Mining strategy: Hard negative mining after epoch 2")
     print("  ⏹️  Early stopping: 4 epochs patience")
     print("  🎯 Output: ./models/occupations_triplet_classifier")
-    
+
     print("\n🧠 HOW TRIPLET LOSS WORKS:")
     print("  1. 📌 Anchor: Reference occupation (e.g., 'Software Engineer')")
     print("  2. ✅ Positive: Similar occupation (e.g., 'Data Scientist')")
     print("  3. ❌ Negative: Different occupation (e.g., 'Chef')")
     print("  4. 🎯 Goal: distance(anchor, positive) + margin < distance(anchor, negative)")
     print("  5. 🔍 Hard mining: Find hardest positives/negatives for better learning")
-    
+
     print("\n" + "=" * 80)
     print("Starting triplet loss training...")
     print("=" * 80)
-    
+
     # Override sys.argv to simulate command line arguments
     original_argv = sys.argv.copy()
     sys.argv = [
@@ -94,14 +94,14 @@ def run_triplet_training_example():
         "--device", "auto",
         "--dropout", "0.3"
     ]
-    
+
     try:
         train_main()
         print("\n" + "=" * 80)
         print("✅ Triplet loss training completed successfully!")
         print("📁 Model saved to: ./models/occupations_triplet_classifier")
         print("=" * 80)
-        
+
         print("\n🔍 NEXT STEPS:")
         print("1. 📊 Evaluate the triplet model:")
         print("   python -m nlp_project.evaluation.evaluate \\")
@@ -117,7 +117,7 @@ def run_triplet_training_example():
         print("   - The model learns 256-dimensional embeddings")
         print("   - Similar occupations should cluster together")
         print("   - Dissimilar occupations should be far apart")
-        
+
     except Exception as e:
         print(f"\n❌ Triplet training failed with error: {e}")
         import traceback
